@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -49,3 +49,17 @@ def register_user(request):
         form = SignUpForm()
         return render(request, 'dev/register.html', {'form': form})
     return render(request, 'dev/register.html', {'form': form})
+
+
+def record_details(request, slug):
+    record = get_object_or_404(Record, slug=slug)
+
+    return render(request, 'dev/details.html', {'record': record})
+
+
+def delete_record(request, slug):
+    record = get_object_or_404(Record, slug=slug)
+    record.delete()
+    messages.success(request, 'Record deleted')
+
+    return redirect('home')

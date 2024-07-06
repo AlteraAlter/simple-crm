@@ -13,7 +13,7 @@ class Record(models.Model):
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
     zipcode = models.CharField(max_length=100)
-    slug = models.SlugField(unique=False,)
+    slug = models.SlugField(unique=True, blank=True, null=True)
 
     def __str__(self) -> str:
         return f'{self.first_name} {self.last_name}'
