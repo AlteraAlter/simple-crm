@@ -2,7 +2,6 @@
 <div class="card">
   <div class="card-header">{{record}}</div>
   <div class="card-body">
-    <h5 class="card-title">See details</h5>
     <p><strong>First name:</strong> {{record.first_name}}</p>
     <p><strong>Last name:</strong> {{record.last_name}}</p>
     <p><strong>Email:</strong> {{record.email}}</p>
@@ -21,6 +20,11 @@
   href="{% url 'delete-record' record.slug %}"
   >Delete</a
 >
-<a type="button" class="btn btn-success">Update</a>
+<a
+  type="button"
+  class="btn btn-success"
+  href="{% url 'update-record' record.slug %}"
+  >Update</a
+>
 
 {% endblock content %}

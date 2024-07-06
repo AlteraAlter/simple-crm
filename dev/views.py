@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SignUpForm
+from .forms import SignUpForm, RecordAddForm
 from .models import Record
 
 # Create your views here.
@@ -63,3 +63,29 @@ def delete_record(request, slug):
     messages.success(request, 'Record deleted')
 
     return redirect('home')
+
+
+def add_record(request):
+    if request.method == 'POST':
+        form = RecordAddForm(request.POST)
+
+        if form.is_valid():
+            messages.success(request, 'Successfully added new record')
+            form.save()
+
+            return redirect('home')
+
+    form = RecordAddForm()
+    return render(request, 'dev/add-record.html', {'form': form})
+
+
+def update_record(request, slug):
+    record = get_object_or_404(Record, slug=slug)
+
+    form = RecordAddForm(request.POST or None, instance=record)
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'Record updated successfully')
+        return redirect('home')
+
+    return render(request, 'dev/update-record.html', {'form': form})
